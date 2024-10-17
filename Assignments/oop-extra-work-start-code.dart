@@ -1,86 +1,117 @@
-// Class Tree
-class Tree {
-  String type;
-  double height;
+enum Country { CAMBODIA, FRANCE, USA }
+enum RoomType{ LivingRoom, BedRoom,Kitchen, BathRoom}
+enum Position { Left, Center, Right}
+enum RoofType { Gable, Hip, Dutch, Flat, Shed}
 
-  Tree(this.type, this.height);
-}
-// Class Window
-class Window{
-  String color;
-  String side;
-  int floor;
+class Address {
+  final Country country;
+  final String city;
+  final String street;
 
-  Window(this.color,this.side,this.floor);
+  Address({this.country=Country.CAMBODIA, required this.city, required this.street});
+
+  String toString(){
+    return "$country - $city - $street";
+  }
 }
-// Class Roof
 class Roof{
-  String type;
+  RoofType type;
   
   Roof(this.type);
-}
-//Class Chimney
-class Chimney{
-  bool haveChimney;
 
-  Chimney(this.haveChimney);
-}
-//Class Door
-class Door{
-  String color;
-  String type;
-  String position;
-  
-  Door(this.color,this.position,this.type);
-}
-
-// Class House
-class House {
-  String address;
-  List<Tree> trees = [];  // by default empty
-  List<Window> windows = [] ;
-  Roof roof;
-  Chimney chimney;
-  Door door;
-
-  House(this.address,this.chimney,this.door,this.roof);
-
-  void addTree(Tree newTree){
-    this.trees.add(newTree);
+  @override
+  String toString(){
+    return "$type";
   }
+}
+class Window{
+  final String color;
+  final Position position;
+
+  Window(this.color,this.position);
+
+  String toString(){
+    return "$color - $position";
+  }
+}
+
+class Room {
+  final RoomType roomType;
+  final List<Window> windows = [];
+  final int floor;
+  final Door door;
+
+  Room({required this.roomType,required this.floor, required this.door});
 
   void addWindow(Window newWindow){
     this.windows.add(newWindow);
   }
 
-  void display(){
-    print("House Address : $address");
-    print("Roof Type : ${roof.type}");
-    print("Door Color : ${door.color}");
-    print("Door Position : ${door.position}");
-    print("House Chimney : ${chimney.haveChimney}");
-    if(windows.isNotEmpty){
-      for(var window in windows){
-         print("${window.color} on ${window.side} on ${window.floor}");
-      }
-    }
-    if(trees.isNotEmpty){
-      for(var tree in trees){
-        print("Tree Type : ${tree.type}");
-        print("Tree Height : ${tree.height}");
-      }
-    }
+  String toString(){
+    return "Room type: $roomType - Window: $windows - Floor:  $floor - Door: $door";
   }
 }
 
-void main(){
-  Tree tree = Tree("Oak", 1.77);
-  Window window = Window("RED", "LEFT", 2);
-  Roof roof = Roof("Hip roof");
-  Chimney chimney = Chimney(true);
-  Door door = Door("White", "middle", "One Panel");
-  House house = House("St 123", chimney, door, roof);
-  house.addTree(tree);
-  house.addWindow(window);
-  house.display();
+
+class Door{
+  final String color;
+  final String type;
+  final Position position;
+
+  Door({required this.color,required this.type,required this.position});
+
+  String toString(){
+    return "$color - $type - $position";
+  }
+}
+
+
+class House{
+  final Address address;
+  final List<Room> rooms = [];
+  final Door mainDoor;
+  final Roof roof;
+
+  House({required this.address, required this.mainDoor, required this.roof});
+
+  void addRoom(Room newRoom){
+    this.rooms.add(newRoom);
+  }
+
+  @override
+  String toString(){
+    return "$address - $rooms - $roof - $mainDoor";
+  }
+
+  void display(){
+    print("$address");
+    if(rooms.isNotEmpty){
+      for(var room in rooms){
+         print("${room.roomType} - ${room.floor} - ${room.windows} - ${room.door}");
+      }
+    }
+    print("Roof : $roof");
+    print("Main Door : $mainDoor");
+
+  }
+}
+
+main() {
+  Address myAdress = Address(street: "CADT", city: "SiemReap" );
+  Door mainDoor = Door(color: "black", type: "oak", position: Position.Center);
+
+  Window window1 = Window("Red", Position.Left);
+  Window window2 = Window("Blue", Position.Right);
+  Window window3 = Window("Pink", Position.Center);
+  Room bathRoom = Room(roomType: RoomType.BathRoom, floor: 2, door: Door(color: "white", type: "wood", position: Position.Left));
+  bathRoom.addWindow(window1);
+  Room livingRoom = Room(roomType: RoomType.LivingRoom, floor: 1, door: Door(color: "white", type: "wood", position: Position.Center));
+  livingRoom.addWindow(window2);
+  Room bedRoom = Room(roomType: RoomType.BedRoom, floor: 2, door: Door(color: "Black", type: "metal", position: Position.Center));
+  bedRoom.addWindow(window3);
+  House home1 = House(address: myAdress, mainDoor: mainDoor, roof: Roof(RoofType.Flat));
+  home1.addRoom(bathRoom);
+  home1.addRoom(livingRoom);
+  home1.addRoom(bedRoom);
+  home1.display();
 }

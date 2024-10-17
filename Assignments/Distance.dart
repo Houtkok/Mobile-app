@@ -26,5 +26,6 @@ void main(){
   print("Total meter : ${total.meters}");
   print("Total kms : ${total.cms}" );
   print("Total cms : ${total.kms}");
+  print(distance1 + distance2);
   
 }
