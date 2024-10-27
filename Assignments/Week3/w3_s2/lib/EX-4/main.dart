@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomCard extends StatelessWidget {
   final String title;
   final List<Color>? color;
-  const CustomCard({super.key, this.title = "hello", this.color});
+  const CustomCard({super.key, required this.title, this.color = const [Colors.blue]});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +31,7 @@ void main() {
           CustomCard(title: 'OOP', color: [Colors.blue[100]!]),
           CustomCard(title: 'DART', color: [Colors.blue[300]!]),
           CustomCard(title: 'FLUTTER', color: [Colors.blue[600]!]),
-          CustomCard(color: [Colors.blue[100]!,Colors.blue[300]!,Colors.blue[600]!])
+          const CustomCard(title: 'Hola'),
         ],
       ),
     ),
